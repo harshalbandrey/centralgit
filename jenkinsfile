@@ -1,0 +1,28 @@
+node{
+stage('wallmart')
+{
+git branch: 'development', credentialsId: 'c68cdf55-708d-4a54-8c29-a0a0e759bb0f', 
+url: 'https://github.com/MithunTechnologiesDevOps/maven-web-application.git'
+}
+stage('build')
+{
+sh "mvn clean package"
+}
+stage('sonarqubereport')
+{
+sh "mvn clean sonar:sonar"
+}
+stage('uploadartifactonnexus')
+{
+sh "mvn clean deploy"
+}
+stage('emailnotifaction')
+{
+emailext body: '''To,
+harshal
+
+on dt 08.04.2023
+Harshal Bandrey''', subject: 'it is completed the build successful', to: 'harshalbandrey@gmail.com'
+}
+}
+
